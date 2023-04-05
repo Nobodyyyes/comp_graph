@@ -1,0 +1,67 @@
+Задать движение объекта через экран по синусоиде
+
+import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class SinusoidMotion extends JPanel {
+    private static final int WIDTH = 250; //ширина рамки
+    private static final int HEIGHT = 250; //высота рамки
+    private static final double AMPLITUDE = 100; //дальность амплитуды (туда-сюда)
+    private static final double PERIOD = 500; //скорость периода
+    private double time;
+
+    public SinusoidMotion() {
+        JFrame frame = new JFrame("Sinusoid Motion");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setResizable(false);
+        frame.add(this);
+        frame.setVisible(true);
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.setColor(Color.darkGray); //заливка background
+        g.fillRect(0, 0, WIDTH, HEIGHT); //заполнение квадрата
+
+        g.setColor(Color.yellow); //цвет фигуры
+        int x = (int) (WIDTH / 2 + AMPLITUDE * Math.sin(2 * Math.PI * time / PERIOD));
+        int y = HEIGHT / 2;
+        g.fillOval(x, y, 10, 10); //параметры задавания высоты и ширины фигуры
+
+        time += 0.1;
+        repaint();
+    }
+    public static void main(String[] args) {
+        new SinusoidMotion();
+    }
+}
+
+/*
+Формула синусоиды выглядит следующим образом:
+
+y = A * sin(ω * x + φ)
+
+где:
+
+y - значение функции (в нашем случае это будет координата объекта на экране)
+A - амплитуда колебаний (высота колебаний относительно оси x)
+ω - угловая частота (скорость колебаний, измеряемая в радианах за единицу времени)
+x - аргумент функции (обычно это время или расстояние)
+φ - начальная фаза (сдвиг функции по оси x влево или вправо)
+
+Для примера движения объекта по синусоиде в Java, мы используем формулу:
+
+x = x_0 + A * sin(2 * π * t / T)
+
+где:
+
+x - координата объекта на экране в данный момент времени
+x_0 - начальная координата объекта на экране
+A - амплитуда колебаний (высота колебаний относительно оси x)
+t - время с начала движения объекта
+T - период колебаний (время, за которое совершается один полный цикл колебаний)
+π - число Пи (около 3,14)
+*/
